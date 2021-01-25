@@ -1,10 +1,9 @@
 import cv2
 import numpy as np
-from pynput import keyboard
 
 thres = 0.45 # Threshold to detect object
 nms_threshold = 0.2
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 # cap.set(3,1280)
 # cap.set(4,720)
 # cap.set(10,150)
@@ -40,10 +39,12 @@ while True:
         i = i[0]
         box = bbox[i]
         x,y,w,h = box[0],box[1],box[2],box[3]
-        cv2.rectangle(img, (x,y),(x+w,h+y), color=(0, 255, 0), thickness=2)
-        cv2.putText(img,classNames[classIds[i][0]-1].upper(),(box[0]+10,box[1]+30),
-                    cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
+        cv2.rectangle(img, (x,y),(x+w,h+y), color=(0, 255, 0), thickness=1)
+
+        if (classNames[i][0] != 0):
+            cv2.putText(img,classNames[classIds[i][0]-1].upper(),(box[0]+10,box[1]+30),
+                        cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
 
     cv2.imshow("Output",img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        breakq
+        break
